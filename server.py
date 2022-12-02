@@ -1,0 +1,214 @@
+from hashlib import sha512
+import json
+
+from flask import Flask, request
+import requests
+
+
+#multiple blocks linked together will make a blockchain
+class Block:
+    #Each block will include its index, all transactions, and its previous hash
+    def __init__(self, index, transactions, prev_hash):
+        self.index = index
+        self.transactions = transactions
+        self.prev_hash = prev_hash
+        self.nonce = 0
+
+
+    # creates a hash for the block
+    def generate_hash(self):
+        block_st = json.dumps(self.__dict__, sort_keys=True)
+        return sha512(block_st.encode()).hexdigest()
+
+# End of Block class
+
+
+#immutable list of blocks
+class Blockchain:
+    # Difficult for proof of work
+    difficulty = 3
+    peers_count = 0;
+    
+    def __init__(self):
+        self.pending = [] # pending list of data that needs to go on chain.
+        self.chain = [] # blockchain
+        self.get_genesis()
+
+    # Starting block in block chain
+    def get_genesis(self):
+        genesis_block = Block(0, [], "0")
+        genesis_block.hash = genesis_block.generate_hash()
+        self.chain.append(genesis_block)
+
+    # Add a block to the chain after verfying and validating it
+    def add_block(self, block, hashl):
+        prev_hash = self.last_block().hash
+        #check the validity of the block
+        if (prev_hash !=block.prev_hash or not self.is_valid(block, hashl)):
+            return False
+        # its valid add to the chain
+        block.hash = hashl
+        self.chain.append(block)
+        return True
+
+
+    # will add the block to the chain. This method is wrapper for verifying, validating and adding the block
+    def mine(self):
+        # no pending transactions
+        if not self.pending:
+            return False
+        last_block = self.last_block()
+        # Creates a new block to be added to the chain
+        new_block = Block(last_block.index + 1,self.pending,last_block.hash)
+
+        # runs the our proof of work and gets the consensus
+        hashl = self.p_o_w(new_block)
+        #add the block
+        self.add_block(new_block, hashl)
+        # Empties the pending list
+        self.pending = []
+        # Annouce to all peers that new block is added
+        announce(new_block)
+        # Returns the index of the blockthat was added to the chain
+        return new_block.index
+
+    #generates a proof of work with the stated difficulty if able to mine a block or not, will update the nonce every iteration
+    def p_o_w(self, block):
+        block.nonce = 0
+        get_hash = block.generate_hash()
+        while not get_hash.startswith("0" * Blockchain.difficulty):
+            block.nonce += 1
+            get_hash = block.generate_hash()
+        return get_hash
+
+    # Adds a new transaction to pending
+    def add_pending(self, transaction):
+        self.pending.append(transaction)
+        
+    # Checks if the chain is valid
+    @classmethod
+    def check_chain_validity(this, chain):
+        result = True
+        prev_hash = "0"
+        for block in chain:
+            block_hash = block.hash
+            #remove hash from the block
+            delattr(block, "hash")
+            if not this.is_valid(block, block.hash) or prev_hash != block.prev_hash:
+                result = False
+                break
+            block.hash = block_hash
+            prev_hash = block_hash
+        return result
+
+    #validity helper method
+    @classmethod
+    def is_valid(cls, block, block_hash):
+        return (block_hash.startswith("0" * Blockchain.difficulty) and block_hash == block.generate_hash())
+
+    # Returns the last Block in the Blockchain
+    def last_block(self):
+        return self.chain[-1]
+# End of Blockchain class
+
+
+# Flask web application
+app = Flask(__name__)
+# create a object of blockchain
+blockchain = Blockchain()
+# All peers in the network
+peers = []
+
+
+@app.route("/new_transaction", methods=["POST"])
+# new transaction added to the block
+def new_transaction():
+    tx_data = request.get_json()
+    required_fields = ["user", "v_file"]
+    for field in required_fields:
+        if not tx_data.get(field):
+            return "Invalid transaction!", 404
+    blockchain.add_pending(tx_data)
+    return "Success", 201
+
+#gets the whole chain
+@app.route("/chain", methods=["GET"])
+def get_chain():
+    consensus()
+    chain = []
+    for block in blockchain.chain:
+        chain.append(block.__dict__)
+    print("Chain Len: {0}".format(len(chain)))
+    print("Number of Peers Online: {0}".format(Blockchain.peers_count))
+    return json.dumps({"length" : len(chain), "chain" : chain})
+        
+
+@app.route("/mine", methods=["GET"])
+#Mines pending tx blocks
+def mine_uncofirmed_transactions():
+    result = blockchain.mine()
+    if not result:
+        return "There are not transactions to mine"
+    return "Block #{0} mined successfully.".format(result)
+
+
+# Adds new peers to the network
+def add_peer():
+    Blockchain.peers_count+= 1;
+    nodes = request.get_json()
+    if not nodes:
+        return "Invalid data", 400
+    for node in nodes:
+        peers.add(node)
+    return "Success", 201
+
+@app.route("/pending_tx")
+# Queries uncofirmed transactions
+def get_pending_tx():
+    return json.dumps(blockchain.pending)
+
+
+# Alorithm will find the longest chain if any and replace current with new. Helps maintain integrity in chain
+def consensus():
+    global blockchain
+    longest_chain = None
+    curr_len = len(blockchain.chain)
+    # Check with all peers
+    for peer in peers:
+        response = request.get("http://{0}".format(peer))
+        length = response.json()["length"]
+        chain = response.json()["chain"]
+        if length > curr_len and blockchain.check_chain_validity(chain):
+            curr_len = length
+            longest_chain = chain
+    if longest_chain:
+        blockchain = longest_chain
+        return True
+    return False
+
+
+@app.route("/add_block", methods=["POST"])
+# Adds a block mined by user to the chain
+def validate_and_add_block():
+    block_data = request.get_json()
+    block = Block(block_data["index"],block_data["transactions"],block_data["prev_hash"])
+    hashl = block_data["hash"]
+    added = blockchain.add_block(block, hashl)
+    if not added:
+        return "The Block was discarded by the node.", 400
+    return "The block was added to the chain.", 201
+
+
+# Announce to the network once a block has been moned
+def announce(block):
+    for peer in peers:
+        url = "http://{0}/add_block".format(peer)
+        requests.post(url, data=json.dumps(block.__dict__, sort_keys=True))
+
+# Run the Flask web app
+app.run(port=8800, debug=True)
+
+
+
+
+
