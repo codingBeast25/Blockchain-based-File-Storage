@@ -1,0 +1,236 @@
+{% extends "base.html" %} {% block content %}
+<style type="text/css">
+  .navbar-item:hover {
+    background-color: #b9293c;
+  }
+
+  .left {
+    float: left;
+  }
+
+  .right {
+    float: right;
+  }
+
+  /* Title, subtitle, and horizontal line. */
+  .title {
+    margin-top: 9rem;
+    text-align: center;
+    line-height: 1.6rem;
+  }
+
+  .title-text {
+    font-family: "Rubik Mono One", sans-serif;
+    font-size: 4rem;
+  }
+
+  .subtitle-text {
+    font-size: 2.4rem;
+  }
+
+  .hr {
+    border-style: solid;
+    border-width: 0.05rem;
+    border-color: #8d7f7f;
+    width: 55rem;
+  }
+
+  /* Buttons, post text area, name input, and body styling. */
+  .content {
+    min-height: 100%;
+    height: 100%;
+  }
+
+  .btn:hover {
+    background-color: #b92948;
+    cursor: pointer;
+  }
+
+  .post-textarea,
+  .name-input {
+    font-family: "Rubik", sans-serif;
+    font-size: 1.4rem;
+    padding: 1rem;
+    border-radius: 0.4rem;
+    border-width: 0.1rem;
+    border-style: solid;
+    border-color: #000303;
+  }
+
+  .request_tx {
+    margin: 2rem 2rem 14rem 2rem;
+  }
+ 
+  /* Footer styling. */
+  /*.footer {
+    height: 12rem;
+    line-height: 1rem;
+    overflow: hidden;
+    background-color: #db3434;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .footer-item {
+    display: block;
+    margin-top: 3rem;
+    color: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    font-size: 2rem;
+  }
+
+  .footer-item a {
+    text-decoration: none;
+    color: #ffffff;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+  }
+
+  .footer-item a:hover {
+    color: #b9293a;
+  }
+
+
+  .white-icon {
+    color: #ffffff;
+    -webkit-transition-duration: 0.3s;
+    transition-duration: 0.3s;
+  }
+
+  .white-icon:hover {
+    color: #b92930;
+  } */
+
+  /* Post boxes styling */
+  .post_box {
+    background: #fff;
+    padding: 1.2rem 0 0 1.2rem;
+    margin-top: 0;
+    margin-bottom: 0.8rem;
+    border: 0.1rem solid #7f8c8d;
+  }
+
+  .post_box-header {
+    padding-bottom: 1.2rem;
+    font-size: 1.4rem;
+  }
+
+  .post_box-avatar {
+    width: 3.8rem;
+    height: 3.8rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-size: 2.2rem;
+    float: left;
+    margin-right: 1.6rem;
+    border: 0.1rem solid #fff;
+    box-shadow: 0 0 0 0.2rem #f00;
+  }
+
+  .post_box-avatar::after {
+    content: "";
+    display: block;
+  }
+
+  .post_box-name {
+    font-weight: bold;
+  }
+
+  .post_box-subtitle {
+    color: #777;
+  }
+
+  .post_box-body {
+    margin-top: 1.6rem;
+    margin-bottom: 0.8rem;
+    font-size: 1.4rem;
+  }
+
+  .post_box-options {
+    float: right;
+  }
+
+  .option-btn {
+    background: #f8f8f8;
+    border: none;
+    color: #502c2c;
+    padding: 0.7rem;
+    cursor: pointer;
+    font-size: 1.4rem;
+    margin-left: 0.2rem;
+    margin-right: 0.2rem;
+    outline: none;
+    height: 4.2rem;
+  }
+</style>
+<div class="container-fluid">
+  <div class="row" style="padding-top: 10px">
+    <div class="col-sm-4" style="">
+      <h2 class="text-center alert alert-primary">Upload a File</h2>
+      <form action="/submit" method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+          <label>User Name:</label>
+          <input
+            type="text"
+            class="form-control"
+            name="user"
+            placeholder="Enter Your Name"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Upload a File:</label>
+          <input
+            type="file"
+            id="fileUpld"
+            name="v_file"
+            accept="image/png, image/jpeg"
+          />
+        </div>
+        <button type="submit" class="btn btn-primary mb-2">Upload</button>
+      </form>
+    </div>
+
+    <div class="col-sm-7">
+      <h2 class="text-center alert alert-primary">Uploaded Files</h2>
+      {% for post in request_tx %}
+      <div class="post_box">
+        <div class="post_box-header">
+          <div
+            style="
+              background: rgb(219, 52, 52) none repeat scroll 0% 0%;
+              box-shadow: rgb(0, 4, 6) 0 0 0 0.2rem;
+            "
+            class="post_box-avatar"
+          >
+            {{post.user[0]}}
+          </div>
+          <div class="name-header">{{post.user}}</div>
+        </div>
+        <div>
+          <div class="post_box-body">
+            <p>
+              {{post.v_file}}&#x2192<a href="{{url_for('download_file')}}"
+                >Download</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <div class="col-sm-1"></div>
+  </div>
+</div>
+
+{% endblock %}
