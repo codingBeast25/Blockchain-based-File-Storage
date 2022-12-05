@@ -9,16 +9,18 @@ import requests
 class Block:
     #Each block will include its index, all transactions, and its previous hash
     def __init__(self, index, transactions, prev_hash):
-        self.index = index
-        self.transactions = transactions
-        self.prev_hash = prev_hash
-        self.nonce = 0
+        self.index = index  # index of each block
+        self.transactions = transactions # transactions (information about files stored in a block)
+        self.prev_hash = prev_hash # hash of the previous block. 
+        self.nonce = 0 # nonce useful for mining new block using POW consensus
 
 
     # creates a hash for the block
     def generate_hash(self):
-        block_st = json.dumps(self.__dict__, sort_keys=True)
-        return sha512(block_st.encode()).hexdigest()
+
+        #  generates hash code using the values stored in block instance. completely random  
+        block_string = str(self.index) + str(self.nonce) + self.prev_hash + str(self.transactions)
+        return sha512(block_string.encode()).hexdigest()
 
 # End of Block class
 
@@ -112,23 +114,22 @@ class Blockchain:
 # End of Blockchain class
 
 
-# Flask web application
+
 app = Flask(__name__)
-# create a object of blockchain
 blockchain = Blockchain()
-# All peers in the network
 peers = []
 
 
 @app.route("/new_transaction", methods=["POST"])
 # new transaction added to the block
 def new_transaction():
-    tx_data = request.get_json()
+    file_data = request.get_json()
+    
     required_fields = ["user", "v_file"]
     for field in required_fields:
-        if not tx_data.get(field):
+        if not file_data.get(field):
             return "Invalid transaction!", 404
-    blockchain.add_pending(tx_data)
+    blockchain.add_pending(file_data)
     return "Success", 201
 
 #gets the whole chain
@@ -154,7 +155,7 @@ def mine_uncofirmed_transactions():
 
 # Adds new peers to the network
 def add_peer():
-    Blockchain.peers_count+= 1;
+    Blockchain.peers_count+= 1
     nodes = request.get_json()
     if not nodes:
         return "Invalid data", 400

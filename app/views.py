@@ -12,6 +12,7 @@ files = [0]
 #destiantion for upload files
 UPLOAD_FOLDER = "app/static/Uploads"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # store  address
 ADDR = "http://127.0.0.1:8800"
 
@@ -44,12 +45,14 @@ def index():
 def submit():
     user = request.form["user"]
     up_file = request.files["v_file"]
+    print(up_file)
     #save the uploaded file in destination
     up_file.save(os.path.join("app/static/Uploads/",secure_filename(up_file.filename)))
     #create a transaction object
     post_object = {
         "user": user,
-        "v_file" : up_file.filename
+        "v_file" : up_file.filename,
+        "file_data" : str(up_file.stream.read())
     }
     #add the file to the list to create a download link
     files[0] = os.path.join(app.root_path, "static" , "Uploads", up_file.filename)
