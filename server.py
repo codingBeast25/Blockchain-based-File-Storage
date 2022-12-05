@@ -27,7 +27,7 @@ class Block:
 class Blockchain:
     # Difficult for proof of work
     difficulty = 3
-    peers_count = 0;
+    peers_count = 0
     
     def __init__(self):
         self.pending = [] # pending list of data that needs to go on chain.

@@ -1,0 +1,14 @@
+[1_create.png] : It shows testing for /create [room] feature as well as username entry. 
+                 User can only create rooms with unique name. Also user names should be unique.
+
+[2_join.png] : It shows when user [bhautik] (top-left) tries to join room2 for the first time, system lets him do that  however, it stops him from joining the same room again. When someone joins the room, it informs other users from that room about new entry.
+
+[3_join_room_full.png] : It shows when the room capacity is full, the system does not allow any more users to join the room.
+
+[4_list.png] : It shows the testing of /list/users [room] & /list/rooms command. Any user can use this command regardless  of them being part of the room or not.
+
+[5_send.png] : It shows when someone sends message to the room. client to the right gets rejected when it tries to send message to the room it is not part of. 
+
+[6_leave.png] : It shows when client to bottom-left tries to leave rooms using /leave command. 
+
+[7_server.png] : It is a small snapshot of server side console.
