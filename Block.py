@@ -15,3 +15,6 @@ class Block:
         #  generates hash code using the values stored in block instance. completely random  
         all_data_combined = str(self.index) + str(self.nonce) + self.prev_hash + str(self.transactions)
         return sha256(all_data_combined.encode()).hexdigest()
+    
+    def add_t(self, t):
+        self.transactions.append(t)

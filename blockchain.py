@@ -1,6 +1,7 @@
 from hashlib import sha256
 import json
 import random
+import numpy.random
 
 from flask import Flask, request
 import requests
@@ -110,6 +111,8 @@ class Blockchain:
     # Returns the last Block in the Blockchain
     def last_block(self):
         return self.chain[-1]
+    
+    
 
 
 
