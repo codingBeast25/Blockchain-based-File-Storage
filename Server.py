@@ -66,11 +66,4 @@ def validate_and_add_block():
     return "The block was added to the chain.", 201
 
 
-# # Announce to the network once a block has been moned
-# def announce(block):
-#     for peer in peers:
-#         url = "http://{0}/add_block".format(peer)
-#         requests.post(url, data=json.dumps(block.__dict__, sort_keys=True))
-
-# Run the Flask web app
 app.run(port=8800, debug=True)

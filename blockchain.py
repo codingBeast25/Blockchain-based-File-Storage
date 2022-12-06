@@ -80,7 +80,6 @@ class Blockchain:
         self.pending.append(transaction)
         
     # Checks if the chain is valid
-    @classmethod
     def check_chain_validity(this, chain):
         result = True
         prev_hash = "0"
@@ -96,7 +95,6 @@ class Blockchain:
         return result
 
     #validity helper method
-    @classmethod
     def is_valid(cls, block, block_hash):
 
         if(block_hash.startswith("0" * Blockchain.difficulty)):
@@ -112,7 +110,7 @@ class Blockchain:
     # Returns the last Block in the Blockchain
     def last_block(self):
         return self.chain[-1]
-# End of Blockchain class
+
 
 
 
