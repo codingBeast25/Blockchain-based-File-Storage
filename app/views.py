@@ -4,6 +4,7 @@ import requests
 from flask import render_template, redirect, request,send_file
 from werkzeug.utils import secure_filename
 from app import app
+from timeit import default_timer as timer
 
 # Stores all the post transaction in the node
 request_tx = []
@@ -43,22 +44,31 @@ def index():
 @app.route("/submit", methods=["POST"])
 # When new transaction is created it is processed and added to transaction
 def submit():
+    start = timer()
     user = request.form["user"]
     up_file = request.files["v_file"]
-    print(up_file)
+    
+    
+
     #save the uploaded file in destination
     up_file.save(os.path.join("app/static/Uploads/",secure_filename(up_file.filename)))
+    #add the file to the list to create a download link
+    files[0] = os.path.join(app.root_path, "static" , "Uploads", up_file.filename)
+    #determines the size of the file uploaded in bytes 
+    file_states = os.stat(files[0]).st_size 
     #create a transaction object
     post_object = {
         "user": user,
         "v_file" : up_file.filename,
-        "file_data" : str(up_file.stream.read())
+        "file_data" : str(up_file.stream.read()),
+        "file_size" : file_states
     }
-    #add the file to the list to create a download link
-    files[0] = os.path.join(app.root_path, "static" , "Uploads", up_file.filename)
+   
     # Submit a new transaction
     address = "{0}/new_transaction".format(ADDR)
     requests.post(address, json=post_object)
+    end = timer()
+    print(end - start)
     return redirect("/")
 
 #creates a download link for the file

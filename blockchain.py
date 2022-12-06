@@ -1,8 +1,10 @@
-from hashlib import sha512
+from hashlib import sha256
 import json
+import random
 
 from flask import Flask, request
 import requests
+
 
 
 #multiple blocks linked together will make a blockchain
@@ -19,10 +21,9 @@ class Block:
     def generate_hash(self):
 
         #  generates hash code using the values stored in block instance. completely random  
-        block_string = str(self.index) + str(self.nonce) + self.prev_hash + str(self.transactions)
-        return sha512(block_string.encode()).hexdigest()
+        all_data_combined = str(self.index) + str(self.nonce) + self.prev_hash + str(self.transactions)
+        return sha256(all_data_combined.encode()).hexdigest()
 
-# End of Block class
 
 
 #immutable list of blocks
@@ -34,48 +35,57 @@ class Blockchain:
     def __init__(self):
         self.pending = [] # pending list of data that needs to go on chain.
         self.chain = [] # blockchain
-        self.get_genesis()
-
-    # Starting block in block chain
-    def get_genesis(self):
         genesis_block = Block(0, [], "0")
         genesis_block.hash = genesis_block.generate_hash()
         self.chain.append(genesis_block)
+
+        
 
     # Add a block to the chain after verfying and validating it
     def add_block(self, block, hashl):
         prev_hash = self.last_block().hash
         #check the validity of the block
-        if (prev_hash !=block.prev_hash or not self.is_valid(block, hashl)):
+        if (prev_hash == block.prev_hash and self.is_valid(block, hashl)):
+            
+            block.hash = hashl
+            self.chain.append(block)
+            return True
+        else:
             return False
-        # its valid add to the chain
-        block.hash = hashl
-        self.chain.append(block)
-        return True
 
 
     # will add the block to the chain. This method is wrapper for verifying, validating and adding the block
     def mine(self):
-        # no pending transactions
-        if not self.pending:
-            return False
-        last_block = self.last_block()
-        # Creates a new block to be added to the chain
-        new_block = Block(last_block.index + 1,self.pending,last_block.hash)
+        
+        if(len(self.pending) > 0):
+            last_block = self.last_block()
+            # Creates a new block to be added to the chain
+            new_block = Block(last_block.index + 1,self.pending,last_block.hash)
 
-        # runs the our proof of work and gets the consensus
-        hashl = self.p_o_w(new_block)
-        #add the block
-        self.add_block(new_block, hashl)
-        # Empties the pending list
-        self.pending = []
-        # Annouce to all peers that new block is added
-        announce(new_block)
-        # Returns the index of the blockthat was added to the chain
-        return new_block.index
+            # runs the our proof of work and gets the consensus
+            hashl = self.p_o_w(new_block)
+            #add the block
+            self.add_block(new_block, hashl)
+            # Empties the pending list
+            self.pending = []
+            # Annouce to all peers that new block is added
+            announce(new_block)
+            # Returns the index of the blockthat was added to the chain
+            
+            return new_block.index
+        else:
+            return False
 
     #generates a proof of work with the stated difficulty if able to mine a block or not, will update the nonce every iteration
     def p_o_w(self, block):
+        block.nonce = 0
+        get_hash = block.generate_hash()
+        while not get_hash.startswith("0" * Blockchain.difficulty):
+            block.nonce = random.randint(0,99999999)
+            get_hash = block.generate_hash()
+        return get_hash
+
+    def p_o_w_2(self, block):
         block.nonce = 0
         get_hash = block.generate_hash()
         while not get_hash.startswith("0" * Blockchain.difficulty):
@@ -92,21 +102,30 @@ class Blockchain:
     def check_chain_validity(this, chain):
         result = True
         prev_hash = "0"
+        
         for block in chain:
             block_hash = block.hash
-            #remove hash from the block
-            delattr(block, "hash")
-            if not this.is_valid(block, block.hash) or prev_hash != block.prev_hash:
+            
+            if this.is_valid(block, block.hash) and prev_hash == block.prev_hash:
+                block.hash = block_hash
+                prev_hash = block_hash
+            else:
                 result = False
-                break
-            block.hash = block_hash
-            prev_hash = block_hash
         return result
 
     #validity helper method
     @classmethod
     def is_valid(cls, block, block_hash):
-        return (block_hash.startswith("0" * Blockchain.difficulty) and block_hash == block.generate_hash())
+
+        if(block_hash.startswith("0" * Blockchain.difficulty)):
+
+            if(block.generate_hash() == block_hash):
+                return True
+            else:
+                return False
+        
+        else:
+            return False
 
     # Returns the last Block in the Blockchain
     def last_block(self):
@@ -125,10 +144,10 @@ peers = []
 def new_transaction():
     file_data = request.get_json()
     
-    required_fields = ["user", "v_file"]
+    required_fields = ["user", "v_file", "file_data", "file_size"]
     for field in required_fields:
         if not file_data.get(field):
-            return "Invalid transaction!", 404
+            return "Transaction does not have valid fields!", 404
     blockchain.add_pending(file_data)
     return "Success", 201
 
@@ -148,9 +167,11 @@ def get_chain():
 #Mines pending tx blocks
 def mine_uncofirmed_transactions():
     result = blockchain.mine()
-    if not result:
+    if result:
+        return "Block #{0} mined successfully.".format(result)
+    else:
         return "There are not transactions to mine"
-    return "Block #{0} mined successfully.".format(result)
+    
 
 
 # Adds new peers to the network
