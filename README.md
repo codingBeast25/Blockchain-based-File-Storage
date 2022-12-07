@@ -15,7 +15,7 @@
 <h2> Project Demo </h2>
 
 <h2> Project Information </h2>
-We developed a web-based application for decentralized file storing using blockchain. In this application any user can upload as many files as he/she likes. All other peers and the user himself can download and access those file in their system. 
+We developed a web-based application for decentralized file storing using blockchain. In this application any user can upload as many files as he/she likes. All other peers and the user himself can download and access those file in their system. <br />
 We are using randomly generated nonce in proof of work concept to acheive the required difficulty (diff = 3). Once peer uploads the file, the file is stored in a block including username, filesize and file data. These block gets appended to the current blockchain, which makes it incredibly hard to edit or delete the file/block. File can be of any type and any size.
 
 <h3>Importance of Blockchain:</h3>
