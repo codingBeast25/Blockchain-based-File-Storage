@@ -13,7 +13,7 @@ files = [0]
 #destiantion for upload files
 UPLOAD_FOLDER = "app/static/Uploads"
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
+# app.config['MAX_CONTENT_LENGTH'] = 1024 * 1024
 # store  address
 ADDR = "http://127.0.0.1:8800"
 
