@@ -8,8 +8,15 @@
    `python peer.py`
 3. Open another terminal and start a client:
    `python run_app.py`
-4. To run our experiment of different Proof of Work concepts:
+4. Copy the link from the client terminal and paste it in any browser.
+5. To run our experiment of different Proof of Work concepts:
    `python POW_Comparison.py`
+
+<h2> Project Demo </h2>
+
+<h2> Project Information </h2>
+We developed a web-based application for decentralized file storing using blockchain. In this application any user can upload as many files as he/she likes. All other peers and the user himself can download and access those file in their system. 
+We are using randomly generated nonce in proof of work concept to acheive the required difficulty (diff = 3). Once peer uploads the file, the file is stored in a block including username, filesize and file data. These block gets appended to the current blockchain, which makes it incredibly hard to edit or delete the file/block. File can be of any type and any size.
 
 <h3>Importance of Blockchain:</h3>
 
