@@ -3,14 +3,13 @@
 <h2>How to run the application</h2>
 
 1. Install required libraries using :
-   `sh pip install -r requirements.txt`
+   `pip install -r requirements.txt`
 2. Open one terminal and start server/peer:
-   `python python peer.py`
+   `python peer.py`
 3. Open another terminal and start a client:
-   `python python run_app.py`
+   `python run_app.py`
 4. To run our experiment of different Proof of Work concepts:
-
-`python python POW_Comparison.py`
+   `python POW_Comparison.py`
 
 <h3>Importance of Blockchain:</h3>
 
