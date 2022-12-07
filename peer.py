@@ -32,7 +32,6 @@ def get_chain():
     for block in blockchain.chain:
         chain.append(block.__dict__)
     print("Chain Len: {0}".format(len(chain)))
-    print("Number of Peers Online: {0}".format(Blockchain.peers_count))
     return json.dumps({"length" : len(chain), "chain" : chain})
         
 

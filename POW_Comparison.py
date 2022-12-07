@@ -42,9 +42,6 @@ for j in range(2,6):
     transactions_length = random.randint(10,20)
     transactions = []
 
-    
-
-
     b = Block(block_index,transactions,"0")
     chain = Blockchain()
     Blockchain.difficulty = j

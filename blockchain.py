@@ -13,7 +13,6 @@ from Block import Block
 class Blockchain:
     # Difficult for proof of work
     difficulty = 3
-    peers_count = 0
     
     def __init__(self):
         self.pending = [] # pending list of data that needs to go on chain.
@@ -45,21 +44,19 @@ class Blockchain:
             # Creates a new block to be added to the chain
             new_block = Block(last_block.index + 1,self.pending,last_block.hash)
 
-            # runs the our proof of work and gets the consensus
+            # runs the our proof of work and gets the consensus. There are 2 different types of p_o_w implemented below. Replace the method name to try another one
             hashl = self.p_o_w(new_block)
             #add the block
             self.add_block(new_block, hashl)
             # Empties the pending list
             self.pending = []
-            # Annouce to all peers that new block is added
-            # announce(new_block)
             # Returns the index of the blockthat was added to the chain
             
             return new_block.index
         else:
             return False
 
-    #generates a proof of work with the stated difficulty if able to mine a block or not, will update the nonce every iteration
+    #generates a proof of work with the stated difficulty if able to mine a block or not, will update the nonce every iteration. With random nonce
     def p_o_w(self, block):
         block.nonce = 0
         get_hash = block.generate_hash()
@@ -67,7 +64,7 @@ class Blockchain:
             block.nonce = random.randint(0,99999999)
             get_hash = block.generate_hash()
         return get_hash
-
+    #with incremental nonce
     def p_o_w_2(self, block):
         block.nonce = 0
         get_hash = block.generate_hash()
