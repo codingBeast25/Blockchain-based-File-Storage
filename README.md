@@ -32,7 +32,7 @@ Blockchain-based applications are typically peer-to-peer networks that must be a
 
 Two different proof of work algorithms are included in our blockchain implementation. Both are attempting to solve the same cryptographic puzzle, but in different ways. According to these proof of work algorithms, whoever finds a hash value for their block that contains a certain number of leading zeros will be able to announce it to the chain. For example, our blockchain only allows miners to add a block if the hash value of their block begins with three zeros, indicating that the difficulty of the blockchain is 3. The term miner refers to peers who attempt to add blocks to the blockchain.
 
-Based on this idea, we have implemented two algorithms. Both calculate nonce differently. One calculates nonce randomly in each iteration and another one simply increments nonce by one in each iteration. We have analyzed running time and behavior of both algorithms in the file name POW_Comparison.py. Based on the output of the file, we have concluded some results for both the methods.
+Based on this idea, we have implemented two algorithms. Both calculate nonce differently. One calculates nonce randomly in each iteration and another one simply increments nonce by one in each iteration. We have analyzed running time and behavior of both algorithms in the file named POW_Comparison.py. Based on the output of the file, we have concluded some results for both the methods.
 
 <h2>Comparison of proof of work algorithms:</h2>
 
@@ -59,11 +59,11 @@ The running time of Second algorithm:
 | Difficulty #4 | 0.00366    | 0.03813    | 0.32095    | 0.02145    |            
 | Difficulty #5 | 0.04403    | 3.10820    | 1.53688    | 1.50288    |            
 
-<h4>Why First Algorithm is better than Second one?</h4>
+<h3>Why First Algorithm is better than Second one?</h3>
 
-<h5> Probability of Valid output & running time </h5>
+<h4> Probability of Valid output & running time </h4>
 
-Based on the output of the POW Comparison.py file, we can conclude that for lower difficulty levels, the running time does not vary significantly. However, for higher difficulty levels, the first algorithm, where the nonce is generated at random, can be faster. One reason for this is that transactions are added concurrently while POW is still running. If a new transaction is added after POW has started running, the entire equation to generate hash will change, and the ultimate nonce value will change compared to the previous value POW was searching for. In 2nd algorithm, previously tested nonce will not be repeated even though there is still a probability that previous nonce can be the solution.
+Based on the output of the POW_Comparison.py file, we can conclude that for lower difficulty levels, the running time does not vary significantly. However, for higher difficulty levels, the first algorithm, where the nonce is generated at random, can be faster. One reason for this is that transactions are added concurrently while POW is still running. If a new transaction is added after POW has started running, the entire equation to generate hash will change, and the ultimate nonce value will change compared to the previous value POW was searching for. In 2nd algorithm, previously tested nonce will not be repeated even though there is still a probability that previous nonce can be the solution.
 
 For Example,
 
@@ -75,7 +75,7 @@ At this point, new transaction is added to the block, which will change entire e
 
 On the other hand, in first algorithm, where nonce is chosen randomly, each nonce is equally probable of getting picked at any given time. So, algorithm has higher probability of giving output in less time for larger difficulty level.
 
-<h5>Security</h5>
+<h4>Security</h4>
 
 Secondly, 2nd algorithm is not quite secure because nonce value can be estimated based on the running time of the algorithm.
 
@@ -89,7 +89,27 @@ Calculating random values can be expensive. So, we might need to find random fun
 
 Overall, any proof of work algorithm is computationally expensive and requires too many resources. There is an alternative to proof of work algorithm, that is proof of stack algorithms, which are also effective in terms of supporting decentralized network. In proof of stack algorithm, validators are randomly chosen. The probability of being chosen also depends on the value of stacks they hold for that blockchain. The chosen validator acquires a right to add a new block to the chain. Based on the validity of the block, the value of stack that the validator hold will increase or decrease. This method is not expensive yet effective.
 
-Comparison for On-chain and off-Chain Blockchain:
+Comparison for On-chain and Off-Chain Blockchain:
+
+Blockchain applications can also be divided into two types: On-chain Blockchain & Off-chain Blockchain.
+
+On-chain Blockchain refers to storing information inside blocks and Off-chain Blockchain refers to storing actual data
+outside the block and only keep metadata in block. 
+
+Advantages of On-chain blockchain: 
+
+On-chain blockchain can be more secure because information is capsulated in secure blocks.
+Infomation can be recovered easily in case of break in the system.
+
+Disadvantages of On-chain blockchain:
+
+Runnning time of the insertion and other block-operations can be slow because it holds too much data to process.
+It is expensive and requires more resources to maintain.
+
+Here, issues with On-chain blockchain can be solved by using off-chain blockchain but On-chain blockchain is more effective where main concern is security and back-up of information.
+
+For this project, we have implemented On-chain blockchain which contains entire file data in block including file size and file name.
+
 
 ```
 
