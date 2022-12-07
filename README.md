@@ -1,4 +1,16 @@
-<h1>Blockchain-based-File-Storage:</h1>
+<h1>Blockchain-based-File-Storage</h1>
+
+<h2>How to run the application</h2>
+
+1. Install required libraries using :
+   `sh pip install -r requirements.txt`
+2. Open one terminal and start server/peer:
+   `python python peer.py`
+3. Open another terminal and start a client:
+   `python python run_app.py`
+4. To run our experiment of different Proof of Work concepts:
+
+`python python POW_Comparison.py`
 
 <h3>Importance of Blockchain:</h3>
 
@@ -48,3 +60,7 @@ Calculating random values can be expensive. So, we might need to find random fun
 Overall, any proof of work algorithm is computationally expensive and requires too many resources. There is an alternative to proof of work algorithm, that is proof of stack algorithms, which are also effective in terms of supporting decentralized network. In proof of stack algorithm, validators are randomly chosen. The probability of being chosen also depends on the value of stacks they hold for that blockchain. The chosen validator acquires a right to add a new block to the chain. Based on the validity of the block, the value of stack that the validator hold will increase or decrease. This method is not expensive yet effective.
 
 Comparison for On-chain and off-Chain Blockchain:
+
+```
+
+```
