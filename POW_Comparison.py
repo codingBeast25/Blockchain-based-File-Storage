@@ -63,10 +63,18 @@ for j in range(2,6):
 
 print("------------Proof of Work with Random Nounce ------------")
 for a in pow_run:
-    print("Difficulty ", pow_run.index(a) + 2, " Time : ", a)
+    print("Difficulty ", pow_run.index(a) + 2, " Time : ", round(a,5))
 
 print("------------Proof of Work with Iterative Nounce ------------")
 for a in pow2_run:
-    print("Difficulty ", pow2_run.index(a) + 2, " Time : ", a)
+    print("Difficulty ", pow2_run.index(a) + 2, " Time : ", round(a,5))
+
+print("------------Proof of Work with Random Nounce ------------")
+for a in pow_run:
+    print(round(a,5))
+
+print("------------Proof of Work with Iterative Nounce ------------")
+for a in pow2_run:
+    print(round(a,5))
 
 
