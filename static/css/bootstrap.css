@@ -158,13 +158,13 @@ sup {
   top: -0.5em;
 }
 a {
-  color: #007bff;
+  color: #ff0000;
   text-decoration: none;
   background-color: transparent;
   -webkit-text-decoration-skip: objects;
 }
 a:hover {
-  color: #0056b3;
+  color: #b30000;
   text-decoration: underline;
 }
 a:not([href]):not([tabindex]) {
@@ -2247,9 +2247,9 @@ fieldset:disabled a.btn {
   pointer-events: none;
 }
 .btn-primary {
-  color: rgb(9, 9, 9);
-  background-color: #ff0000;
-  border-color: #ff0000;
+  color: #1d2124;
+  background-color: #bd2130b8;
+  border-color: #1d2124;
 }
 .btn-primary:hover {
   color: #fff;
@@ -4515,14 +4515,14 @@ input[type="submit"].btn-block {
 }
 .alert-primary {
   color: #850000;
-  background-color: #ffcccc;
-  border-color: #ffb8b8;
+  background-color: hsl(354deg 70% 44% / 43%);
+  border-color: #1d2124;
 }
 .alert-primary hr {
-  border-top-color: #ff9f9f;
+  border-top-color: #9fcdff;
 }
 .alert-primary .alert-link {
-  color: #002752;
+  color: #520006;
 }
 .alert-secondary {
   color: #383d41;
