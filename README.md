@@ -112,8 +112,8 @@ Here, issues with On-chain blockchain can be solved by using off-chain blockchai
 For this project, we have implemented On-chain blockchain which contains entire file data in block including file size and file name.
 
 <h2>References:</h2>
-1. https://github.com/JungWinter/file-on-blockchain
-2. https://github.com/MoTechStore/Python-Flask-Blockchain-Based-Content-Sharing
+1. https://github.com/JungWinter/file-on-blockchain<br />
+2. https://github.com/MoTechStore/Python-Flask-Blockchain-Based-Content-Sharing<br/>
 3. https://medium.com/@amannagpal4/how-to-create-your-own-decentralized-file-sharing-service-using-python-2e00005bdc4a
 
 <h2> Authors </h2>
