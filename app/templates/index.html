@@ -174,7 +174,7 @@
         <div>
           <div class="post_box-body">
             <p>
-              {{post.v_file}}&#x2192<a href="{{url_for('download_file')}}"
+              {{post.v_file}}&#x2192<a href="{{url_for('download_file',variable = post.v_file)}}"
                 >Download</a
               >
             </p>
