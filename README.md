@@ -19,6 +19,7 @@ We are using randomly generated nonce in proof of work concept to acheive the re
 The reason to implement file storing using blockchain is its abilitiy to avoid any modification or deletion. No one can delete or corrupt our files that are stored.
 
 <h2> Project Demo </h2>
+<h3> Youtube Demo Link : https://youtu.be/Z6JiYkk8Qt8 </h3>
 
 <h2>Importance of Blockchain:</h2>
 
@@ -36,7 +37,7 @@ Based on this idea, we have implemented two algorithms. Both calculate nonce dif
 
 <h2>Comparison of proof of work algorithms:</h2>
 
-<h4>Difference:</h4>
+<h3>Difference:</h3>
 
 1. Nonce = random.randint(0,99999999) (first algorithm: p_o_w)
 2. Nonce += 1 (second algorithm: p_o_w_2)
@@ -75,7 +76,7 @@ At this point, new transaction is added to the block, which will change entire e
 
 On the other hand, in first algorithm, where nonce is chosen randomly, each nonce is equally probable of getting picked at any given time. So, algorithm has higher probability of giving output in less time for larger difficulty level.
 
-<h4>Security</h4>
+<h2>Security</h2>
 
 Secondly, 2nd algorithm is not quite secure because nonce value can be estimated based on the running time of the algorithm.
 
@@ -83,25 +84,25 @@ For example, Assume that Nonce value is between (0,10000). If running time is le
 
 Here, we might wonder why the security of nonce is important. If someone has information about one block and they can also figure out nonce for that block, then they can easily break the entire blockchain system because all the blocks are connected to each other with their hash values.
 
-<h4>Some Issues with first algorithm</h4>
+<h2>Some Issues with first algorithm</h2>
 
 Calculating random values can be expensive. So, we might need to find random functions that have constant running time or quicker compared to other random functions. For example, python random.random() function is faster than random.randint().
 
 Overall, any proof of work algorithm is computationally expensive and requires too many resources. There is an alternative to proof of work algorithm, that is proof of stack algorithms, which are also effective in terms of supporting decentralized network. In proof of stack algorithm, validators are randomly chosen. The probability of being chosen also depends on the value of stacks they hold for that blockchain. The chosen validator acquires a right to add a new block to the chain. Based on the validity of the block, the value of stack that the validator hold will increase or decrease. This method is not expensive yet effective.
 
-Comparison for On-chain and Off-Chain Blockchain:
+<h2>Comparison for On-chain and Off-Chain Blockchain:</h2>
 
 Blockchain applications can also be divided into two types: On-chain Blockchain & Off-chain Blockchain.
 
 On-chain Blockchain refers to storing information inside blocks and Off-chain Blockchain refers to storing actual data
 outside the block and only keep metadata in block. 
 
-Advantages of On-chain blockchain: 
+<h3>Advantages of On-chain blockchain: </h3>
 
 On-chain blockchain can be more secure because information is capsulated in secure blocks.
 Infomation can be recovered easily in case of break in the system.
 
-Disadvantages of On-chain blockchain:
+<h3>Disadvantages of On-chain blockchain:</h3>
 
 Runnning time of the insertion and other block-operations can be slow because it holds too much data to process.
 It is expensive and requires more resources to maintain.
@@ -110,10 +111,6 @@ Here, issues with On-chain blockchain can be solved by using off-chain blockchai
 
 For this project, we have implemented On-chain blockchain which contains entire file data in block including file size and file name.
 
-
-```
-
-```
 <h2> Authors </h2>
 
 1. Name: Bhautik Sojitra
