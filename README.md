@@ -62,7 +62,7 @@ The running time of Second algorithm:
 
 <h3>Why First Algorithm is better than Second one?</h3>
 
-<h4> Probability of Valid output & running time </h4>
+<b><h4> Probability of Valid output & running time </h4> </b>
 
 Based on the output of the POW_Comparison.py file, we can conclude that for lower difficulty levels, the running time does not vary significantly. However, for higher difficulty levels, the first algorithm, where the nonce is generated at random, can be faster. One reason for this is that transactions are added concurrently while POW is still running. If a new transaction is added after POW has started running, the entire equation to generate hash will change, and the ultimate nonce value will change compared to the previous value POW was searching for. In 2nd algorithm, previously tested nonce will not be repeated even though there is still a probability that previous nonce can be the solution.
 
@@ -76,13 +76,9 @@ At this point, new transaction is added to the block, which will change entire e
 
 On the other hand, in first algorithm, where nonce is chosen randomly, each nonce is equally probable of getting picked at any given time. So, algorithm has higher probability of giving output in less time for larger difficulty level.
 
-<h2>Security</h2>
+<b><h4>Security</h4></b>
 
-Secondly, 2nd algorithm is not quite secure because nonce value can be estimated based on the running time of the algorithm.
-
-For example, Assume that Nonce value is between (0,10000). If running time is less, nonce will be small number such as between 0-1000. If running time is higher, then nonce can be close to 10000.
-
-Here, we might wonder why the security of nonce is important. If someone has information about one block and they can also figure out nonce for that block, then they can easily break the entire blockchain system because all the blocks are connected to each other with their hash values.
+Secondly, 2nd algorithm is not quite secure because nonce value can be estimated based on the running time of the algorithm. For example, Assume that Nonce value is between (0,10000). If running time is less, nonce will be small number such as between 0-1000. If running time is higher, then nonce can be close to 10000. Here, we might wonder why the security of nonce is important. If someone has information about one block and they can also figure out nonce for that block, then they can easily break the entire blockchain system because all the blocks are connected to each other with their hash values.
 
 <h2>Some Issues with first algorithm</h2>
 
@@ -92,10 +88,7 @@ Overall, any proof of work algorithm is computationally expensive and requires t
 
 <h2>Comparison for On-chain and Off-Chain Blockchain:</h2>
 
-Blockchain applications can also be divided into two types: On-chain Blockchain & Off-chain Blockchain.
-
-On-chain Blockchain refers to storing information inside blocks and Off-chain Blockchain refers to storing actual data
-outside the block and only keep metadata in block. 
+Blockchain applications can also be divided into two types: On-chain Blockchain & Off-chain Blockchain. On-chain Blockchain refers to storing information inside blocks and Off-chain Blockchain refers to storing actual data outside the block and only keep metadata in block. 
 
 <h3>Advantages of On-chain blockchain: </h3>
 
@@ -107,9 +100,7 @@ Infomation can be recovered easily in case of break in the system.
 Runnning time of the insertion and other block-operations can be slow because it holds too much data to process.
 It is expensive and requires more resources to maintain.
 
-Here, issues with On-chain blockchain can be solved by using off-chain blockchain but On-chain blockchain is more effective where main concern is security and back-up of information.
-
-For this project, we have implemented On-chain blockchain which contains entire file data in block including file size and file name.
+Here, issues with On-chain blockchain can be solved by using off-chain blockchain but On-chain blockchain is more effective where main concern is security and back-up of information. For this project, we have implemented On-chain blockchain which contains entire file data in block including file size and file name.
 
 <h2>References:</h2>
 1. https://github.com/JungWinter/file-on-blockchain<br />
