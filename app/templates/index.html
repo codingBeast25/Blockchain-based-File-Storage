@@ -3,31 +3,25 @@
   .navbar-item:hover {
     background-color: #b9293c;
   }
-
   .left {
     float: left;
   }
-
   .right {
     float: right;
   }
-
   /* Title, subtitle, and horizontal line. */
   .title {
     margin-top: 9rem;
     text-align: center;
     line-height: 1.6rem;
   }
-
   .title-text {
     font-family:'Courier New', Courier, monospace;
     font-size: 5rem;
   }
-
   .subtitle-text {
     font-size: 2.9rem;
   }
-
   .hr {
     border-style: solid;
     border-width: 0.08rem;
@@ -36,7 +30,7 @@
   }
 
   /* Buttons, post text area, name input, and body styling. */
-  .content {
+a  .content {
     min-height: 100%;
     height: 100%;
   }
@@ -174,18 +168,15 @@
         <div>
           <div class="post_box-body">
             <p>
-              {{post.v_file}}&#x2192<a href="{{url_for('download_file',variable = post.v_file)}}"
-                >Download</a
-              >
+              {{post.v_file}}&#x2192<a href="{{url_for('download',variable = post.v_file)}}"
+            >Download</a>
             </p>
           </div>
         </div>
       </div>
       {% endfor %}
     </div>
-
     <div class="col-sm-1"></div>
   </div>
 </div>
-
 {% endblock %}

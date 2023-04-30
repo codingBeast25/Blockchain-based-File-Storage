@@ -43,23 +43,19 @@ def add_transaction(block):
         } 
 
         block.add_t(t)
-# run pow algorithms  with difficulty from 2 to 5
 for j in range(2,6):
 
     block_index = random.randint(0,2000)
     transactions_length = random.randint(10,20)
     transactions = []
 
-    # creates random block      
     b = Block(block_index,transactions,"0")
     chain = Blockchain()
     Blockchain.difficulty = j
-    
-    # thread to add transactions on the fly    
+
     new_thread = threading.Thread(target=add_transaction, args= (b,))
     new_thread.start()
 
-    # calculating running time for POW algorithm     
     start = timer()
     print(chain.p_o_w(b))
     end = timer()
